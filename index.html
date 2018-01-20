@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>P1 Andy Ho (915528994)</title>
-<script src="./js/d3/d3.min.js"></script>
+<script src="./js/d3/d3.js"></script>
 <script src="./js/jquery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="./css/main.css" type="text/css">
 </head>
@@ -24,59 +24,127 @@
         <h3>Jan. 2018</h3>
     </div>
     <br>
-    <div id="vis1" class="">
+    <div id="vis1" class="center">
         
     </div>
 </font>
 </body>
 <script>
+// Variable Declarations ----------------------------------------------------
 var dataset = "./dataset/pokemon_alopez247.csv";
 var sub_dataset_1 = "./dataset/types.csv";
 var sub_dataset_2 = "./dataset/egggroups.csv";
 
-var tcolor = new Map();
-var egcolor = new Map();
+var data = [];
 
-var data = "";
+var type_st = new Map();
+var eg_st = new Map();
+
+// Constants
+var diameter = 960,
+    format = d3.format( ",d" );
+    // color = d3.category20c();
+
+// Define a bubble object with attributes
+var bubble = d3.pack()
+    .size( [diameter, diameter] )
+    .padding( 1.5 );
+
+// Define svg object
+var svg = d3.select( "#vis1" ).append( "svg" )
+    .attr( "width", diameter )
+    .attr( "height", diameter )
+    .attr( "class", "bubble" );
+
+// Define 'div' for tooltips
+var div = d3.select( "#vis1" )
+    .append( "div" )  // declare the tooltip div 
+    .attr( "class", "tooltip" )
+    .style( "opacity", 0 );
+// --------------------------------------------------- Variable Declarations
+
 // Reading Data ------------------------------------------------------------
 // read the main dataset
 d3.csv( dataset, function( d )
 {
-    // if( d.Type_1 != "" ) type.add( String(d.Type_1) );
-    data += JSON.stringify( d );
-}, function( error, classes )
+    data.push( d );
+    if( d.Type_1 != "" )
+        if( type_st.get( d.Type_1 ) == undefined )
+            type_st.set( String(d.Type_1), ["", 0] );
+        else
+        {
+            num = type_st.get( d.Type_1 )[ 1 ];
+            num += 1
+            type_st.set( String(d.Type_1), ["", num] );
+        }
+    if( d.Type_2 != "" )
+        if( type_st.get( d.Type_2 ) == undefined )
+            type_st.set( String(d.Type_2), ["", 0] );
+        else
+        {
+            num = type_st.get( d.Type_2 )[ 1 ];
+            num += 1
+            type_st.set( String(d.Type_2), ["", num] );
+        }
+    if( d.Egg_Group_1 != "" )
+        if( eg_st.get( d.Egg_Group_1 ) == undefined )
+            eg_st.set( String(d.Egg_Group_1), ["", 0] );
+        else
+        {
+            num = eg_st.get( d.Egg_Group_1 )[ 1 ] + 1;
+            eg_st.set( String(d.Egg_Group_1), ["", num] );
+        }
+    if( d.Egg_Group_2 != "" )
+        if( eg_st.get( d.Egg_Group_2 ) == undefined )
+            eg_st.set( String(d.Egg_Group_2), ["", 0] );
+        else
+        {
+            num = eg_st.get( d.Egg_Group_2 )[ 1 ] + 1;
+            eg_st.set( String(d.Egg_Group_2), ["", num] );
+        }
+}, function( error, attributes )
 {
+    // console.log( attributes );
     if( error ) throw error;
-    class_1();
+    type_color();
 });
 // first class
-function class_1()
+function type_color()
 {
     // read the pre-defined color for each type of Pokémon
     d3.csv( sub_dataset_1, function( d )
     {
         d.forEach( function( e )
         {
-            tcolor.set( String(e.Type), String(e.Color) );
+            type_st.get( String(e.Type) )[ 0 ] = String(e.Color);
         });
-        class_2();
+        eg_color();
     });
 }
 // secon class
-function class_2()
+function eg_color()
 {
     // read the pre-defined color for each type of Pokémon
     d3.csv( sub_dataset_2, function( d )
     {
         d.forEach( function( e )
         {
-            egcolor.set( String(e.Egg_Group), String(e.Color) );
+            eg_st.get( String(e.Egg_Group) )[ 0 ] = String(e.Color);
         });
-        console.log( tcolor );
-        console.log( egcolor );
+        cal();
     });
 }
 // ------------------------------------------------------------ Reading Data
+
+function cal()
+{
+    console.log( type_st );
+    console.log( eg_st );
+    // for( var i = 0 ; i < data.length ; i++ )
+    // {
+    //     console.log( data[ i ].Type_1 );
+    // }
+}
 
 // start drawing the chart
 function draw()

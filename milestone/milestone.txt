@@ -1,0 +1,14 @@
+For this project, I selected to use the Pokemon datasets to provide a basic dashboard of it.
+In the current progress, I created a bubble chart to present the different Pokemon Types.
+The user is able to hover his/her mouse to see the exact amount, number of Pokemon that fit a specific type, shown on the tooltip.
+The datasets have been pre-processing to compute the number of Pokemon that fit a certain Type and Egg Group.
+The processed information is stored in two files:
+1. "types.csv:: The Types of Pokemon with the amount and assigned display color.
+2. "egggroups.csv": The Egg Groups of Pokemon with the amount and assigned display color.
+
+The color is arbitrarily assigned based on the author's perspective.
+
+When the project is complete, I would like to accomplish the following objectives:
+1. Enable the user to click on a particular type of Pokemon and show all the Pokemon name on the chart.
+2. Enable the user to further click on the Pokemon name to see detail information of the Pokemon chosen.
+3. Use the other two different form of visualization to present different information of this dataset.

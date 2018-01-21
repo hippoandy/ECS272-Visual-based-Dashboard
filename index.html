@@ -11,9 +11,9 @@
     <div class="text-gray">
     <ul class="nav">
         <li class="active"><a href="#home">Home</a></li>
-        <li><a href="#ss">Screenshot</a></li>
+        <!-- <li><a href="#ss">Screenshot</a></li>
         <li><a href="#link">Hyperlink</a></li>
-        <li><a href="#desc">Description</a></li>
+        <li><a href="#desc">Description</a></li> -->
     </ul>
 
     <div id="home" class="title">
@@ -27,6 +27,7 @@
     <br>
     </div>
     <div id="vis1" class="center"></div>
+    <div id="list"></div>
 </font>
 </body>
 <script>
@@ -158,9 +159,19 @@ function draw()
         return div.style( "visibility", "hidden" );
     })
     .on( "click", function( d ) {
-        console.log( d.data.Type );
+        var list = document.getElementById( "list" );
+        list.innerHTML = "";
+        for( var i = 0 ; i < data.length ; i++ )
+        {
+            if( data[ i ].Type_1 == d.data.Type )
+            {
+                var new_div = document.createElement( "div" );
+                new_div.className = "item";
+                new_div.innerHTML = data[ i ].Name;
+                list.appendChild( new_div );
+            }
+        }
     });
-
     d3.select( self.frameElement ).style( "height", diameter + "px" );
 }
 

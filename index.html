@@ -106,36 +106,53 @@ function draw()
 
     var nodes = d3.hierarchy( {children: type_st} ).sum( function( d ) { return d.Amount; } );
 
-    var node = svg.selectAll(".node")
+    var node = svg.selectAll( ".node" )
         .data( bubble( nodes ).descendants() )
         .enter().filter( function(d) {
             return  !d.children
-        }).append("g")
-        .attr("class", "node")
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        }).append( "g" )
+        .attr( "class", "node" )
+        .attr( "transform", function( d ) { return "translate(" + d.x + "," + d.y + ")"; } );
 
     node.append( "circle" )
-        .attr("r", function(d) { return d.r; })
+        .attr("r", function( d ) { return d.r; })
         .style( "stroke", "#727272" )
         .style( "stroke-width", "2px" )
-        .style( "fill", function(d) { return d.data.Color; } );
+        .style( "fill", function( d ) { return d.data.Color; } );
     
     node.append( "text" )
         .attr("dy", ".3em")
         .text(function(d) {
-            return d.data.Type + ": " + d.data.Amount;
+            return d.data.Type;
         })
         .style( "text-anchor", "middle" )
         .style( "font-weight", "bold" )
-        .style( 'fill', function (d) {
-            if( this.previousSibling.style.fill == "rgb(0, 0, 0)" )
-                return "#fff";
-            else
+        .style( 'fill', function ( d ) {
+            if( this.previousSibling.style.fill == "rgb(255, 255, 255)" )
                 return "#282424";
+            else
+                return "#fff";
         });
+    
+    // Tooltip for bubble
+    node.on("mouseover", function( d ) {
+        div .transition()
+            .duration( 100 )
+            .style( "visibility", "visible" )
+            .style( "opacity", 0.9 )
+            .style( "transition", "0.5s" );
+        div .html(
+                "<div class=\"text-bold center\">" + d.data.Type + "</div><br>" +
+                "Amount: " + d.data.Amount
+            )
+            .style( "left", (d3.event.pageX) + "px" )
+            .style( "top", (d3.event.pageY - 28) + "px" );
+    })
+    .on("mouseout", function() {
+        return div.style( "visibility", "hidden" );
+    });
 
-    d3.select(self.frameElement)
-        .style("height", diameter + "px");
+    d3.select( self.frameElement ).style( "height", diameter + "px" );
 }
 
 $(".nav li").on( "click", function()

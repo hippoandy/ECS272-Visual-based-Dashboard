@@ -41,7 +41,7 @@ var type_st = [];
 var eg_st = [];
 
 // Constants
-var diameter = 960,
+var diameter = 700,
     format = d3.format( ",d" );
 
 // Define svg object
@@ -99,8 +99,6 @@ function eg_color()
 // start drawing the chart
 function draw()
 {
-    console.log( "Type:" );
-    console.log( typeof test );
     // Define a bubble object with attributes
     var bubble = d3.pack()
         .size( [diameter, diameter] )
@@ -129,12 +127,13 @@ function draw()
         })
         .style( "text-anchor", "middle" )
         .style( "font-weight", "bold" )
-        .style( 'fill', function (d){
-            console.log( this.parent().style.backgroundColor );
-            return "#000";
+        .style( 'fill', function (d) {
+            if( this.previousSibling.style.fill == "rgb(0, 0, 0)" )
+                return "#fff";
+            else
+                return "#282424";
         });
-        // .style( 'mix-blend-mode', 'luminosity' );
-    
+
     d3.select(self.frameElement)
         .style("height", diameter + "px");
 }

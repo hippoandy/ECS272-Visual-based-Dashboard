@@ -6,8 +6,9 @@
 <script src="./js/jquery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="./css/main.css" type="text/css">
 </head>
-<body class="body text-gray">
+<body class="body">
 <font face="Arial">
+    <div class="text-gray">
     <ul class="nav">
         <li class="active"><a href="#home">Home</a></li>
         <li><a href="#ss">Screenshot</a></li>
@@ -24,9 +25,8 @@
         <h3>Jan. 2018</h3>
     </div>
     <br>
-    <div id="vis1" class="center">
-        
     </div>
+    <div id="vis1" class="center"></div>
 </font>
 </body>
 <script>
@@ -37,18 +37,12 @@ var sub_dataset_2 = "./dataset/egggroups.csv";
 
 var data = [];
 
-var type_st = new Map();
-var eg_st = new Map();
+var type_st = [];
+var eg_st = [];
 
 // Constants
 var diameter = 960,
     format = d3.format( ",d" );
-    // color = d3.category20c();
-
-// Define a bubble object with attributes
-var bubble = d3.pack()
-    .size( [diameter, diameter] )
-    .padding( 1.5 );
 
 // Define svg object
 var svg = d3.select( "#vis1" ).append( "svg" )
@@ -58,7 +52,8 @@ var svg = d3.select( "#vis1" ).append( "svg" )
 
 // Define 'div' for tooltips
 var div = d3.select( "#vis1" )
-    .append( "div" )  // declare the tooltip div 
+    // declare the tooltip div 
+    .append( "div" )
     .attr( "class", "tooltip" )
     .style( "opacity", 0 );
 // --------------------------------------------------- Variable Declarations
@@ -68,88 +63,80 @@ var div = d3.select( "#vis1" )
 d3.csv( dataset, function( d )
 {
     data.push( d );
-    if( d.Type_1 != "" )
-        if( type_st.get( d.Type_1 ) == undefined )
-            type_st.set( String(d.Type_1), ["", 0] );
-        else
-        {
-            num = type_st.get( d.Type_1 )[ 1 ];
-            num += 1
-            type_st.set( String(d.Type_1), ["", num] );
-        }
-    if( d.Type_2 != "" )
-        if( type_st.get( d.Type_2 ) == undefined )
-            type_st.set( String(d.Type_2), ["", 0] );
-        else
-        {
-            num = type_st.get( d.Type_2 )[ 1 ];
-            num += 1
-            type_st.set( String(d.Type_2), ["", num] );
-        }
-    if( d.Egg_Group_1 != "" )
-        if( eg_st.get( d.Egg_Group_1 ) == undefined )
-            eg_st.set( String(d.Egg_Group_1), ["", 0] );
-        else
-        {
-            num = eg_st.get( d.Egg_Group_1 )[ 1 ] + 1;
-            eg_st.set( String(d.Egg_Group_1), ["", num] );
-        }
-    if( d.Egg_Group_2 != "" )
-        if( eg_st.get( d.Egg_Group_2 ) == undefined )
-            eg_st.set( String(d.Egg_Group_2), ["", 0] );
-        else
-        {
-            num = eg_st.get( d.Egg_Group_2 )[ 1 ] + 1;
-            eg_st.set( String(d.Egg_Group_2), ["", num] );
-        }
-}, function( error, attributes )
+}, function( error, header )
 {
-    // console.log( attributes );
+    // console.log( error );
+    // console.log( header );
     if( error ) throw error;
     type_color();
 });
-// first class
+
 function type_color()
 {
     // read the pre-defined color for each type of Pokémon
     d3.csv( sub_dataset_1, function( d )
     {
-        d.forEach( function( e )
-        {
-            type_st.get( String(e.Type) )[ 0 ] = String(e.Color);
+        d.forEach( function( e ) {
+            type_st.push( {"Type": String(e.Type), "Color": String(e.Color), "Amount": parseInt(e.Amount)} );
         });
-        eg_color();
+        // eg_color();
+        draw();
     });
 }
-// secon class
 function eg_color()
 {
     // read the pre-defined color for each type of Pokémon
     d3.csv( sub_dataset_2, function( d )
     {
-        d.forEach( function( e )
-        {
-            eg_st.get( String(e.Egg_Group) )[ 0 ] = String(e.Color);
+        d.forEach( function( e ) {
+            eg_st.set( String(e.Egg_Group), {"Color": String(e.Color), "Amount": parseInt(e.Amount)} );
         });
-        cal();
+        draw();
     });
 }
 // ------------------------------------------------------------ Reading Data
 
-function cal()
-{
-    console.log( type_st );
-    console.log( eg_st );
-    // for( var i = 0 ; i < data.length ; i++ )
-    // {
-    //     console.log( data[ i ].Type_1 );
-    // }
-}
-
 // start drawing the chart
 function draw()
 {
+    console.log( "Type:" );
+    console.log( typeof test );
+    // Define a bubble object with attributes
+    var bubble = d3.pack()
+        .size( [diameter, diameter] )
+        .padding( 1.5 );
 
+    var nodes = d3.hierarchy( {children: type_st} ).sum( function( d ) { return d.Amount; } );
+
+    var node = svg.selectAll(".node")
+        .data( bubble( nodes ).descendants() )
+        .enter().filter( function(d) {
+            return  !d.children
+        }).append("g")
+        .attr("class", "node")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+    node.append( "circle" )
+        .attr("r", function(d) { return d.r; })
+        .style( "stroke", "#727272" )
+        .style( "stroke-width", "2px" )
+        .style( "fill", function(d) { return d.data.Color; } );
+    
+    node.append( "text" )
+        .attr("dy", ".3em")
+        .text(function(d) {
+            return d.data.Type + ": " + d.data.Amount;
+        })
+        .style( "text-anchor", "middle" )
+        .style( "font-weight", "bold" )
+        .style( 'fill', function (d){
+            console.log( this.parent().style.backgroundColor );
+            return "#000";
+        });
+        // .style( 'mix-blend-mode', 'luminosity' );
+    
+    d3.select(self.frameElement)
+        .style("height", diameter + "px");
 }
 
 $(".nav li").on( "click", function()

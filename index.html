@@ -65,8 +65,6 @@ d3.csv( dataset, function( d )
     data.push( d );
 }, function( error, header )
 {
-    // console.log( error );
-    // console.log( header );
     if( error ) throw error;
     type_color();
 });
@@ -128,14 +126,22 @@ function draw()
         .style( "text-anchor", "middle" )
         .style( "font-weight", "bold" )
         .style( 'fill', function ( d ) {
-            if( this.previousSibling.style.fill == "rgb(255, 255, 255)" )
-                return "#282424";
-            else
-                return "#fff";
+            switch( d.data.Type )
+            {
+                case 'Dragon':
+                case 'Electric':
+                case 'Ghost':
+                case 'Normal':
+                    return "#282424"
+                default:
+                    return "#fff";
+            }
+            // if( this.previousSibling.style.fill == "rgb(255, 255, 255)" )
+            //     return "#282424";
         });
     
     // Tooltip for bubble
-    node.on("mouseover", function( d ) {
+    node.on( "mouseover", function( d ) {
         div .transition()
             .duration( 100 )
             .style( "visibility", "visible" )
@@ -148,8 +154,11 @@ function draw()
             .style( "left", (d3.event.pageX) + "px" )
             .style( "top", (d3.event.pageY - 28) + "px" );
     })
-    .on("mouseout", function() {
+    .on( "mouseout", function() {
         return div.style( "visibility", "hidden" );
+    })
+    .on( "click", function( d ) {
+        console.log( d.data.Type );
     });
 
     d3.select( self.frameElement ).style( "height", diameter + "px" );

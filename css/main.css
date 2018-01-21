@@ -8,8 +8,14 @@
 .text-gray {
     color: #3f3e3e;
 }
+.text-white {
+    color: #fff;
+}
 .text-medium {
     font-size: 1.2em;
+}
+.center {
+    text-align: center;
 }
 
 .button {

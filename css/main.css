@@ -5,6 +5,9 @@
     color: #3f3e3e;
     border-bottom: #3f3e3e 0.5px solid;
 }
+.text-bold {
+    font-weight: bold;
+}
 .text-gray {
     color: #3f3e3e;
 }
@@ -68,4 +71,18 @@ li a:hover:not(.active) {
 }
 highlight {
     color: rgb(173, 69, 38);
+}
+
+div.tooltip {
+    color: white;
+    position: absolute;
+    text-align: center;
+    width: 130px;
+    padding: 10px;
+    font: 20px;
+    background: #333;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    visibility: hidden;
+    pointer-events: none;
 }

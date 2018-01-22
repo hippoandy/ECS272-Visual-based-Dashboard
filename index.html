@@ -5,18 +5,23 @@
 <script src="./js/d3/d3.js"></script>
 <script src="./js/jquery/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="./css/main.css" type="text/css">
+<script src="./js/self/main.js"></script>
 </head>
 <body class="body">
 <font face="Arial">
-    <div class="text-gray">
+
     <ul class="nav">
-        <li class="active"><a href="#home">Home</a></li>
-        <!-- <li><a href="#ss">Screenshot</a></li>
-        <li><a href="#link">Hyperlink</a></li>
+        <li class="active" onclick="open_tab(event, 'Home')"><a href="#home">Home</a></li>
+        <li><a href="#chart1" onclick="open_tab(event, 'chart1')">Chart 1</a></li>
+        <!-- <li><a href="#link">Hyperlink</a></li>
         <li><a href="#desc">Description</a></li> -->
     </ul>
-
-    <div id="home" class="title">
+    <!-- <div class="tab">
+        <button class="tablinks" onclick="open_tab(event, 'Home')">Home</button>
+        <button class="tablinks" onclick="open_tab(event, 'chart1')">Paris</button>
+        <button class="tablinks" onclick="open_tab(event, 'Tokyo')">Tokyo</button>
+    </div> -->
+    <div id="Home" class="tabcontent">
         <h1>ECS272 Infomation Visualization Winter 2018</h1>
         <h2>Project 1 - Visual-based Dashboard</h2>
         <h3><highlight>Yu-Chang (Andy) Ho</highlight></h3>
@@ -24,161 +29,30 @@
         <h3>Dataset: <highlight>Pokémon</highlight></h3>
         <h3>Jan. 2018</h3>
     </div>
-    <br>
+    
+    <div id="chart1" class="tabcontent">
+        <div id="vis1" class="center"></div>
+        <div id="list"></div>
     </div>
-    <div id="vis1" class="center"></div>
-    <div id="list"></div>
+    
+    <div id="Tokyo" class="tabcontent">
+        <h3>Tokyo</h3>
+        <p>Tokyo is the capital of Japan.</p>
+    </div>
+
+    <div class="text-gray">
+        
+
+        <!-- <div id="home" class="title">
+            <h1>ECS272 Infomation Visualization Winter 2018</h1>
+            <h2>Project 1 - Visual-based Dashboard</h2>
+            <h3><highlight>Yu-Chang (Andy) Ho</highlight></h3>
+            <h3>Student ID: <highlight>915528994</highlight></h3>
+            <h3>Dataset: <highlight>Pokémon</highlight></h3>
+            <h3>Jan. 2018</h3>
+        </div> -->
+    </div>
+    <br>
 </font>
 </body>
-<script>
-// Variable Declarations ----------------------------------------------------
-var dataset = "./dataset/pokemon_alopez247.csv";
-var sub_dataset_1 = "./dataset/types.csv";
-var sub_dataset_2 = "./dataset/egggroups.csv";
-
-var data = [];
-
-var type_st = [];
-var eg_st = [];
-
-// Constants
-var diameter = 700,
-    format = d3.format( ",d" );
-
-// Define svg object
-var svg = d3.select( "#vis1" ).append( "svg" )
-    .attr( "width", diameter )
-    .attr( "height", diameter )
-    .attr( "class", "bubble" );
-
-// Define 'div' for tooltips
-var div = d3.select( "#vis1" )
-    // declare the tooltip div 
-    .append( "div" )
-    .attr( "class", "tooltip" )
-    .style( "opacity", 0 );
-// --------------------------------------------------- Variable Declarations
-
-// Reading Data ------------------------------------------------------------
-// read the main dataset
-d3.csv( dataset, function( d )
-{
-    data.push( d );
-}, function( error, header )
-{
-    if( error ) throw error;
-    type_color();
-});
-
-function type_color()
-{
-    // read the pre-defined color for each type of Pokémon
-    d3.csv( sub_dataset_1, function( d )
-    {
-        d.forEach( function( e ) {
-            type_st.push( {"Type": String(e.Type), "Color": String(e.Color), "Amount": parseInt(e.Amount)} );
-        });
-        // eg_color();
-        draw();
-    });
-}
-function eg_color()
-{
-    // read the pre-defined color for each type of Pokémon
-    d3.csv( sub_dataset_2, function( d )
-    {
-        d.forEach( function( e ) {
-            eg_st.set( String(e.Egg_Group), {"Color": String(e.Color), "Amount": parseInt(e.Amount)} );
-        });
-        draw();
-    });
-}
-// ------------------------------------------------------------ Reading Data
-
-// start drawing the chart
-function draw()
-{
-    // Define a bubble object with attributes
-    var bubble = d3.pack()
-        .size( [diameter, diameter] )
-        .padding( 1.5 );
-
-    var nodes = d3.hierarchy( {children: type_st} ).sum( function( d ) { return d.Amount; } );
-
-    var node = svg.selectAll( ".node" )
-        .data( bubble( nodes ).descendants() )
-        .enter().filter( function(d) {
-            return  !d.children
-        }).append( "g" )
-        .attr( "class", "node" )
-        .attr( "transform", function( d ) { return "translate(" + d.x + "," + d.y + ")"; } );
-
-    node.append( "circle" )
-        .attr("r", function( d ) { return d.r; })
-        .style( "stroke", "#727272" )
-        .style( "stroke-width", "2px" )
-        .style( "fill", function( d ) { return d.data.Color; } );
-    
-    node.append( "text" )
-        .attr("dy", ".3em")
-        .text(function(d) {
-            return d.data.Type;
-        })
-        .style( "text-anchor", "middle" )
-        .style( "font-weight", "bold" )
-        .style( 'fill', function ( d ) {
-            switch( d.data.Type )
-            {
-                case 'Dragon':
-                case 'Electric':
-                case 'Ghost':
-                case 'Normal':
-                    return "#282424"
-                default:
-                    return "#fff";
-            }
-            // if( this.previousSibling.style.fill == "rgb(255, 255, 255)" )
-            //     return "#282424";
-        });
-    
-    // Tooltip for bubble
-    node.on( "mouseover", function( d ) {
-        div .transition()
-            .duration( 100 )
-            .style( "visibility", "visible" )
-            .style( "opacity", 0.9 )
-            .style( "transition", "0.5s" );
-        div .html(
-                "<div class=\"text-bold center\">" + d.data.Type + "</div><br>" +
-                "Amount: " + d.data.Amount
-            )
-            .style( "left", (d3.event.pageX) + "px" )
-            .style( "top", (d3.event.pageY - 28) + "px" );
-    })
-    .on( "mouseout", function() {
-        return div.style( "visibility", "hidden" );
-    })
-    .on( "click", function( d ) {
-        var list = document.getElementById( "list" );
-        list.innerHTML = "";
-        for( var i = 0 ; i < data.length ; i++ )
-        {
-            if( data[ i ].Type_1 == d.data.Type )
-            {
-                var new_div = document.createElement( "div" );
-                new_div.className = "item";
-                new_div.innerHTML = data[ i ].Name;
-                list.appendChild( new_div );
-            }
-        }
-    });
-    d3.select( self.frameElement ).style( "height", diameter + "px" );
-}
-
-$(".nav li").on( "click", function()
-{
-    $(".nav>li.active").removeClass( "active" );
-    $(this).addClass( "active" );
-});
-</script>
 </html>

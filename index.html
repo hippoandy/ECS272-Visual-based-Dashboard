@@ -11,8 +11,8 @@
 <font face="Arial">
 
     <ul class="nav">
-        <li class="active" onclick="open_tab(event, 'Home')"><a href="#home">Home</a></li>
-        <li><a href="#chart1" onclick="open_tab(event, 'chart1')">Chart 1</a></li>
+        <li id="H" class="active" onclick="change_color( '#H' ); open_tab(event, 'Home')"><a href="#home">Home</a></li>
+        <li id="C1" onclick="change_color( '#C1' ); open_tab(event, 'chart1')"><a href="#chart1">Chart 1</a></li>
         <!-- <li><a href="#link">Hyperlink</a></li>
         <li><a href="#desc">Description</a></li> -->
     </ul>
@@ -28,6 +28,11 @@
         <h3>Student ID: <highlight>915528994</highlight></h3>
         <h3>Dataset: <highlight>Pokémon</highlight></h3>
         <h3>Jan. 2018</h3>
+
+        <div class="tab">
+            <button class="tablinks" onclick="change_color( '#C1' ); open_tab(event, 'chart1')">Chart 1</button>
+            <!-- <button class="tablinks" onclick="open_tab(event, 'Tokyo')">Tokyo</button> -->
+        </div>
     </div>
     
     <div id="chart1" class="tabcontent">

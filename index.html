@@ -32,7 +32,8 @@
             </div>
         </div>
         <div id="detail">
-            <table width="100%">
+            <div><i class="fa fa-times close" style="font-size: 2em;" aria-hidden="true" onclick="close_detail();"></i></div>
+            <table id="det-table" width="100%">
                 <tr>
                     <td width="20"><div id="avatar"></div></td>
                     <td width="80%" align="center">
@@ -47,7 +48,6 @@
                             </tr>
                         </table>
                         <hr width="95%">
-                        <div width="80%" id="det" class=""></div>
                         <table width="100%">
                             <tr>
                                 <td width="10%"><p id="hp-title" style="text-align: left;">HP</p></td>
@@ -55,6 +55,7 @@
                             </tr>
                             <tr><td colspan="2"><div id="hp"></div></td></tr>
                         </table>
+                        <div width="80%" id="det" class=""></div>
                     </td>
                 </tr>
             </table>

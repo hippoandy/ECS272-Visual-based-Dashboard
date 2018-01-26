@@ -230,6 +230,9 @@ document.getElementById( "dashboard" ).style.display = "block";
 
 function find_pokemon( event )
 {
+    // show the detail
+    document.getElementById( 'detail' ).style.display = 'block';
+
     var el = event.target;
     var num = parseInt(el.dataset.number);
 
@@ -269,12 +272,12 @@ function find_pokemon( event )
     name.innerHTML = data[ (num - 1) ].Name;
 
     var det = document.getElementById( "det" );
-    var toput = "<table class='det-text' width='100%'><tr><td width='30%' align='center' sytle='margin-right: 20px;'>Type</td><td><type>"
+    var toput = "<table class='det-text' width='100%'><tr><td width='18%' align='left' sytle='margin-right: 20px;'>Type</td><td><type>"
     if( data[ (num - 1) ].Type_2 == "" )
         toput += data[ (num - 1) ].Type_1;
     else
         toput += data[ (num - 1) ].Type_1 + " / " + data[ (num - 1) ].Type_2;
-    toput += "</type></td></tr><tr><td align='center'>Egg Group</td><td><type>";
+    toput += "</type></td></tr><tr><td align='left'>Egg Group</td><td><type>";
     if( data[ (num - 1) ].Egg_Group_2 == "" )
         toput += data[ (num - 1) ].Egg_Group_1;
     else
@@ -306,4 +309,10 @@ function open_tab(evt, tab_name)
         tabcontent[i].style.display = "none";
 
     document.getElementById( tab_name ).style.display = "block";
+}
+
+function close_detail()
+{
+    // close the detail
+    document.getElementById( 'detail' ).style.display = 'none';
 }

@@ -14,7 +14,7 @@ var radar_chart = {
             max_value: 0,
             radians: 2 * Math.PI,
             opacity_area: 0.5,
-            to_right: 20,
+            to_right: 3,
             trans_x: 80,
             trans_y: 30,
             extra_width: 100,
@@ -79,8 +79,7 @@ var radar_chart = {
                 .style( "font-size", "10px" )
                 .attr( "transform", "translate(" + (conf.w / 2 - level_factor + conf.to_right) + ", " + (conf.h / 2 - level_factor) + ")" )
                 .attr( "fill", "#737373" )
-                // .text( (j + 1) * 100 / conf.levels );
-                .text( level_factor );
+                .text( (conf.max_value / conf.levels) * (j + 1) );
         }
 
         var axis = g.selectAll( ".axis" )

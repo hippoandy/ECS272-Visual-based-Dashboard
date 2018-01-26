@@ -232,9 +232,29 @@ function find_pokemon( event )
 {
     var el = event.target;
     var num = parseInt(el.dataset.number);
+
+    var config = {
+        w: 300,
+        h: 300,
+        max_value: 250,
+        levels: 5,
+        extra_width: 300
+    };
+    var toradar = [
+        [
+            {"attribute": "Attack", "value": data[ (num - 1) ].Attack},
+            {"attribute": "Defense", "value": data[ (num - 1) ].Defense},
+            {"attribute": "Speed", "value": data[ (num - 1) ].Speed},
+            {"attribute": "Speical Attack", "value": data[ (num - 1) ].Sp_Atk},
+            {"attribute": "Speical Defense", "value": data[ (num - 1) ].Sp_Def}
+        ]
+    ];
+    // draw the radar chart
+    radar_chart.draw( "#radar", toradar, config );
+
+
     var ava = document.getElementById( "avatar" );
     ava.innerHTML = ""
-
     var img = document.createElement( "img" );
     img.setAttribute( "src", ("./img/pokemon/" + String(num) + ".png") );
     img.setAttribute( "style", "padding: 10px;" );
@@ -268,11 +288,6 @@ function find_pokemon( event )
 
     var hpnum = document.getElementById( "hp-num" );
     hpnum.innerHTML = data[ (num - 1) ].HP;
-    // for( var i = 0 ; i < data.length ; i++ )
-    // {
-    //     if( parseInt(data[ i ].Number) == parseInt(el.dataset.number) )
-    //         console.log( data[ i ] );
-    // }
 }
 
 });

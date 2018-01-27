@@ -10,23 +10,60 @@ var data = [];
 var type_st = [];
 var eg_st = [];
 
-// --------------------------------------------------- Variable Declarations
-
-var pokemons = document.getElementById( "pokemons" );
-pokemons.innerHTML = "";
-
+// to create the mulit-page list
 var numofpoke = 0;
 var numofpage = 0;
 var maxpokemon = 24;
 var recentbreak = 0;
 var page = 1;
 var numpage = document.getElementById( "pagenum" );
+
+var attack = new Map();
+var defense = new Map();
+var speed = new Map();
+var sp_atk = new Map();
+var sp_def = new Map();
+// --------------------------------------------------- Variable Declarations
+
+var pokemons = document.getElementById( "pokemons" );
+pokemons.innerHTML = "";
+
 // Reading Data ------------------------------------------------------------
 // read the main dataset
 var flag = 0;
 d3.csv( dataset, function( d )
 {
     data.push( d );
+
+    var atk = parseInt(d.Attack);
+    if( atk % 10 == 0 )
+        build_map( attack, String(parseInt(atk / 10) * 10), d.Number );
+    else
+        build_map( attack, String((parseInt(atk / 10) + 1) * 10), d.Number );
+    
+    var def = parseInt(d.Defense);
+    if( def % 10 == 0 )
+        build_map( defense, String(parseInt(def / 10) * 10), d.Number );
+    else
+        build_map( defense, String((parseInt(def / 10) + 1) * 10), d.Number );
+    
+    var spd = parseInt(d.Speed);
+    if( spd % 10 == 0 )
+        build_map( speed, String(parseInt(spd / 10) * 10), d.Number );
+    else
+        build_map( speed, String((parseInt(spd / 10) + 1) * 10), d.Number );
+
+    var spa = parseInt(d.Sp_Atk);
+    if( spa % 10 == 0 )
+        build_map( sp_atk, String(parseInt(spa / 10) * 10), d.Number );
+    else
+        build_map( sp_atk, String((parseInt(spa / 10) + 1) * 10), d.Number );
+    
+    var spf = parseInt(d.Sp_Def);
+    if( spf % 10 == 0 )
+        build_map( sp_def, String(parseInt(spf / 10) * 10), d.Number );
+    else
+        build_map( sp_def, String((parseInt(spf / 10) + 1) * 10), d.Number );
 
     var ndiv = document.createElement( "div" );
     ndiv.className = "item";
@@ -53,8 +90,8 @@ d3.csv( dataset, function( d )
     ndiv.onclick = find_pokemon;
     pokemons.appendChild( ndiv );
 
+    // multi-page list
     numofpoke += 1;
-    // console.log( "Hi" + String(numofpoke / maxpokemon) );
     if( numofpoke % maxpokemon == 0 )
     {
         recentbreak = numofpoke;
@@ -62,9 +99,11 @@ d3.csv( dataset, function( d )
         $("#pokemons > div").slice( (numofpoke - maxpokemon), numofpoke ).addClass( 'page' + String(numofpage) ).hide();
     }
 
-}, function( error, header )
+},
+function( error, header )
 {
     if( error ) throw error;
+
     $('.page1').show();
     numpage.innerHTML = "1 / " + numofpage;
 
@@ -94,7 +133,6 @@ d3.csv( dataset, function( d )
 
     type_color();
 });
-
 function type_color()
 {
     // read the pre-defined color for each type of Pokémon
@@ -104,7 +142,8 @@ function type_color()
             type_st.push( {"Type": String(e.Type), "Color": String(e.Color), "Amount": parseInt(e.Amount)} );
         });
         // eg_color();
-        draw();
+        // draw the bubble chart
+        bubble_chart( data, type_st );
     });
 }
 function eg_color()
@@ -115,121 +154,19 @@ function eg_color()
         d.forEach( function( e ) {
             eg_st.set( String(e.Egg_Group), {"Color": String(e.Color), "Amount": parseInt(e.Amount)} );
         });
-        draw();
+        bubble_chart( data, eg_st );
     });
 }
 // ------------------------------------------------------------ Reading Data
 
-// start drawing the chart
-function draw()
-{
-    // Constants
-    var diameter = 700,
-    format = d3.format( ",d" );
-
-    // Define svg object
-    var svg = d3.select( "#vis1" ).append( "svg" )
-    .attr( "width", diameter )
-    .attr( "height", diameter )
-    .attr( "class", "bubble" );
-
-    // Define 'div' for tooltips
-    var div = d3.select( "#vis1" )
-    // declare the tooltip div 
-    .append( "div" )
-    .attr( "class", "tooltip" )
-    .style( "opacity", 0 );
-
-    // Define a bubble object with attributes
-    var bubble = d3.pack()
-        .size( [diameter, diameter] )
-        .padding( 1.5 );
-
-    var nodes = d3.hierarchy( {children: type_st} ).sum( function( d ) { return d.Amount; } );
-
-    var node = svg.selectAll( ".node" )
-        .data( bubble( nodes ).descendants() )
-        .enter().filter( function(d) {
-            return  !d.children
-        }).append( "g" )
-        .attr( "class", "node" )
-        .attr( "transform", function( d ) { return "translate(" + d.x + "," + d.y + ")"; } );
-
-    node.append( "circle" )
-        .attr("r", function( d ) { return d.r; })
-        .style( "stroke", "#727272" )
-        .style( "stroke-width", "2px" )
-        .style( "fill", function( d ) { return d.data.Color; } );
-    
-    node.append( "text" )
-        .attr("dy", ".3em")
-        .text(function(d) {
-            return d.data.Type;
-        })
-        .style( "text-anchor", "middle" )
-        .style( "font-weight", "bold" )
-        .style( 'fill', function ( d ) {
-            switch( d.data.Type )
-            {
-                case 'Dragon':
-                case 'Electric':
-                case 'Ghost':
-                case 'Normal':
-                    return "#282424"
-                default:
-                    return "#fff";
-            }
-            // if( this.previousSibling.style.fill == "rgb(255, 255, 255)" )
-            //     return "#282424";
-        });
-    
-    // Tooltip for bubble
-    node.on( "mouseover", function( d ) {
-        div .transition()
-            .duration( 100 )
-            .style( "visibility", "visible" )
-            .style( "opacity", 0.9 )
-            .style( "transition", "0.5s" );
-        div .html(
-                "<div class=\"text-bold center\">" + d.data.Type + "</div><br>" +
-                "Amount: " + d.data.Amount
-            )
-            .style( "left", (d3.event.pageX) + "px" )
-            .style( "top", (d3.event.pageY - 28) + "px" );
-    })
-    .on( "mouseout", function() {
-        return div.style( "visibility", "hidden" );
-    })
-    .on( "click", function( d ) {
-        var list = document.getElementById( "list" );
-        list.style.visibility = "visible";
-        list.innerHTML = "";
-        for( var i = 0 ; i < data.length ; i++ )
-        {
-            if( data[ i ].Type_1 == d.data.Type )
-            {
-                var ndiv = document.createElement( "div" );
-                ndiv.className = "item";
-                ndiv.innerHTML = data[ i ].Name;
-                var img = document.createElement( "img" );
-                img.setAttribute( "src", ("./img/pokemon/" + String(data[ i ].Number) + ".png") );
-                img.setAttribute( "style", "padding: 2px;" );
-                img.setAttribute( "width", "80px" );
-                img.setAttribute( "height", "80px" );
-                img.setAttribute( "alt", String(data[ i ].Name) );
-                ndiv.appendChild( img );
-                list.appendChild( ndiv );
-            }
-        }
-    });
-    d3.select( self.frameElement ).style( "height", diameter + "px" );
-}
-
 // show the first tab
 document.getElementById( "dashboard" ).style.display = "block";
 
+// Dashboard Onclick -------------------------------------------------------
 function find_pokemon( event )
 {
+    $("#detail").animate({ scrollTop: 0 }, "slow");
+
     // show the detail
     document.getElementById( 'detail' ).style.display = 'block';
 
@@ -237,24 +174,21 @@ function find_pokemon( event )
     var num = parseInt(el.dataset.number);
 
     var config = {
-        w: 300,
-        h: 300,
+        w: 250,
+        h: 250,
         max_value: 250,
         levels: 5,
-        extra_width: 300
+        extra_width: 200
     };
-    var toradar = [
-        [
-            {"attribute": "Attack", "value": data[ (num - 1) ].Attack},
-            {"attribute": "Defense", "value": data[ (num - 1) ].Defense},
-            {"attribute": "Speed", "value": data[ (num - 1) ].Speed},
-            {"attribute": "Speical Attack", "value": data[ (num - 1) ].Sp_Atk},
-            {"attribute": "Speical Defense", "value": data[ (num - 1) ].Sp_Def}
-        ]
-    ];
+    var toradar = [[
+        {"attribute": "Attack", "value": data[ (num - 1) ].Attack},
+        {"attribute": "Defense", "value": data[ (num - 1) ].Defense},
+        {"attribute": "Speed", "value": data[ (num - 1) ].Speed},
+        {"attribute": "Speical Attack", "value": data[ (num - 1) ].Sp_Atk},
+        {"attribute": "Speical Defense", "value": data[ (num - 1) ].Sp_Def}
+    ]];
     // draw the radar chart
     radar_chart.draw( "#radar", toradar, config );
-
 
     var ava = document.getElementById( "avatar" );
     ava.innerHTML = ""
@@ -272,26 +206,76 @@ function find_pokemon( event )
     name.innerHTML = data[ (num - 1) ].Name;
 
     var det = document.getElementById( "det" );
+    // adding type information
     var toput = "<table class='det-text' width='100%'><tr><td width='18%' align='left' sytle='margin-right: 20px;'>Type</td><td><type>"
     if( data[ (num - 1) ].Type_2 == "" )
         toput += data[ (num - 1) ].Type_1;
     else
-        toput += data[ (num - 1) ].Type_1 + " / " + data[ (num - 1) ].Type_2;
+        toput += data[ (num - 1) ].Type_1 + "</type> / <type>" + data[ (num - 1) ].Type_2;
+    // adding egg group information
     toput += "</type></td></tr><tr><td align='left'>Egg Group</td><td><type>";
     if( data[ (num - 1) ].Egg_Group_2 == "" )
-        toput += data[ (num - 1) ].Egg_Group_1;
+        toput += String(data[ (num - 1) ].Egg_Group_1).replace( '_', ' ' );
     else
-        toput += data[ (num - 1) ].Egg_Group_1 + " / " + data[ (num - 1) ].Egg_Group_2;
-    toput += "</type></td></tr></table>"
+        toput += String(data[ (num - 1) ].Egg_Group_1).replace( '_', ' ' ) + "</type> / <type>" + String(data[ (num - 1) ].Egg_Group_2).replace( '_', ' ' );
+    // adding generation information
+    toput += "</type></td></tr><tr><td>Generation</td><td><type>" + data[ (num - 1) ].Generation + "</type></td></tr>";
+    toput += "</table>";
     det.innerHTML = toput;
+    
+    var attrlist = document.getElementById( "attr-list" );
+    toput = "";
+    // adding height information
+    toput = toput + "<div class='attr-item'><h4>Height</h4><large>" + data[ (num - 1) ].Height_m + " </large><bold><italic>M</italic></bold></div>";
+    // adding weight information
+    toput = toput + "<div class='attr-item'><h4>Weight</h4><large>" + data[ (num - 1) ].Weight_kg + " </large><bold><italic>Kg</italic></bold></div>";
+    // adding gender information
+    toput += "<div class='attr-item'><h4>Gender</h4>";
+
+    if( String(data[ (num - 1) ].hasGender) == "True" )
+    {
+        var male = parseFloat(data[ (num - 1) ].Pr_Male) * 100;
+        toput = toput + "<large>" + String(male) + " </large><i class='fa fa-percent' aria-hidden='true'></i><large> <i class='fa fa-male margin-bottom' aria-hidden='true'></i></large><br>";
+        toput = toput + "<large>" + String(100 - male) + " </large><i class='fa fa-percent' aria-hidden='true'></i><large> <i class='fa fa-female' aria-hidden='true'></i></large>";
+        toput += "</div>";
+    }
+    else
+        toput += "<large><i class='fa fa-question' aria-hidden='true'></i></large></div>";
+    // // adding generation information
+    // toput = toput + "<div class='attr-item'><h4>Generation</h4><large>" + data[ (num - 1) ].Generation + "</large></div>";
+    // adding legendary information
+    toput += "<div class='attr-item'><h4>Legendary</h4>";
+    if( String(data[ (num - 1) ].isLegendary) == "True" )
+        toput += "<large><i class='fa fa-check' aria-hidden='true'></i></large></div>";
+    else
+        toput += "<large><i class='fa fa-times' aria-hidden='true'></i></large></div>";
+    // adding mega evolution information
+    toput += "<div class='attr-item'><h4>Mega Evolution</h4>";
+    if( String(data[ (num - 1) ].hasMegaEvolution) == "True" )
+        toput += "<large><i class='fa fa-check' aria-hidden='true'></i></large></div>";
+    else
+        toput += "<large><i class='fa fa-times' aria-hidden='true'></i></large></div>";
+    // adding catch rate information
+    toput = toput + "<div class='attr-item'><h4>Catch Rate</h4><large>" + data[ (num - 1) ].Catch_Rate + " </large><i class='fa fa-percent' aria-hidden='true'></i></div>";
+    attrlist.innerHTML = toput;
 
     var hp = document.getElementById( "hp" );
-    // hp.setAttribute( "width", String(data[ (num - 1) ].HP) + "px" );
     hp.setAttribute( "style", "width: " + String((parseInt(data[ (num - 1) ].HP) * 3)) + "px" );
 
     var hpnum = document.getElementById( "hp-num" );
     hpnum.innerHTML = data[ (num - 1) ].HP;
+
+    var arr = new Array( 25 );
+    for( var i = 0 ; i < arr.length ; i++ )
+    {
+        arr[ i ] = { "group": (i + 1) * 10, "count": 0 };
+    }
+    attack.forEach( function( value, key ) {
+        arr[ parseInt(parseInt(key) / 10 - 1) ].count = value.get( "count" );
+    })
+    bar_chart.draw( arr, "Attack", data[ (num - 1) ].Attack );
 }
+// ------------------------------------------------------- Dashboard Onclick
 
 });
 
@@ -315,4 +299,21 @@ function close_detail()
 {
     // close the detail
     document.getElementById( 'detail' ).style.display = 'none';
+}
+
+function build_map( map, key, value )
+{
+    if( map.has( key ) == false )
+    {
+        map.set( key, new Map() );
+        map.get( key ).set( "count", 1 );
+        map.get( key ).set( "nums", [ value ] );
+    }
+    else
+    {
+        map.get( key ).set( "count", map.get( key ).get( "count" ) + 1 );
+        var nums = map.get( key ).get( "nums" );
+        nums.push( value );
+        map.get( key ).set( "nums", nums );
+    }
 }

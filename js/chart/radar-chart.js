@@ -44,7 +44,6 @@ var radar_chart = {
             .append( "g")
             .attr( "transform", "translate( " + conf.trans_x + "," + conf.trans_y + " )" );
 
-        var tooltip;
         // circular segments
         for( var j = 0 ; j < conf.levels ; j++ )
         {
@@ -75,7 +74,6 @@ var radar_chart = {
                 .attr( "x", function( d ) { return level_factor * (1 - conf.factor * Math.sin( 0 )); } )
                 .attr( "y", function( d ) { return level_factor * (1 - conf.factor * Math.cos( 0 )); } )
                 .attr( "class", "legend" )
-                // .style( "font-family", "sans-serif" )
                 .style( "font-size", "10px" )
                 .attr( "transform", "translate(" + (conf.w / 2 - level_factor + conf.to_right) + ", " + (conf.h / 2 - level_factor) + ")" )
                 .attr( "fill", "#737373" )
@@ -100,7 +98,6 @@ var radar_chart = {
         axis.append( "text" )
             .attr( "class", "legend" )
             .text( function( d ) { return d; } )
-            // .style( "font-family", "sans-serif" )
             .style( "fill", "white" )
             .style( "font-size", "1.2em" )
             .style( "font-weight", "bold" )
@@ -191,12 +188,18 @@ var radar_chart = {
             .style( "fill-opacity", 0.9 )
             .on( 'mouseover', function( d )
             {
-                tooltip.style( "left", d3.event.pageX - 40 + "px" )
-                    .style( "top", d3.event.pageY - 80 + "px" )
+                tooltip.style( "left", d3.event.pageX - 70 + "px" )
+                    .style( "top", d3.event.pageY - 75 + "px" )
+                    .style( "opacity", 0.9 )
+                    .style( "transition", "0.5s" )
                     .html( (d.attribute) + "<br><span>" + (d.value) + "</span>" );
                 tooltip.style( "visibility", "visible" )
             })
-            .on("mouseout", function( d ) { tooltip.style( "visibility", "hidden" ); } );
+            .on("mouseout", function( d ) { tooltip.style( "visibility", "hidden" ); })
+            .on( 'click', function()
+            {
+                console.log( "hi!!" );
+            });
 
             series++;
         });

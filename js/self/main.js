@@ -1,4 +1,5 @@
 var pokemonset;
+var total_pokemon = 721;
 
 var attack;
 var defense;

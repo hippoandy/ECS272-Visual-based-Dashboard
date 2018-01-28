@@ -98,7 +98,7 @@ var bar_chart = {
                 list.innerHTML = "";
 
                 var blgn = document.getElementById( "b-list-g-name" );
-                blgn.innerHTML = "<bold class='text-white'>Pokemon Attack Between <italic>" + (parseInt(d.group) - 9) + "-" + d.group + "</italic></bold>";
+                blgn.innerHTML = "<bold class='text-white'><large><italic>" + x_name + "</italic></large> Between <italic>" + (parseInt(d.group) - 9) + "-" + d.group + "</italic></bold>";
 
                 var arr = map.get( String(d.group) ).get( "nums" );
                 arr.sort( (a, b) => (a - b) );
@@ -115,18 +115,26 @@ var bar_chart = {
         if( prev != null ) prev.remove();
         var tooltip = d3.select( "#bar" ).append( "div" ).attr( "class", "tool-tip" );
         var tpos;
+        var count = 0;
         $( ".bar" ).each( function( index )
         {
+            try
+            { count += parseInt(map.get( String((index + 1) * 10) ).get( "count" )); }
+            catch(error){}
+
             if( index == ofst )
+            {
                 tpos = $(this).position();
+                return false;
+            }
         });
         tooltip.attr( "id", "show-hint" )
             .style( "left", tpos.left - 124 + "px" )
-            .style( "top", tpos.top + 50 + "px" )
+            .style( "top", tpos.top+ "px" )
             .style( "opacity", 0.9 )
             .style( "transition", "0.5s" )
             .style( "visibility", "visible" )
-            .html( "This Pokemon belongs here." );
+            .html( "This Pokemon is here.<br>It beats " + format_float( parseFloat(count / 721) * 100, 2 ) + "% of all Pokemons!" );
     }
 };
 
@@ -135,6 +143,12 @@ function cal_offset( value )
     var ofst = (parseInt((parseInt(value) / 10)) + 1);
     if( (parseInt(value) % 10) == 0 ) ofst -= 1;
     return ofst;
+}
+
+function format_float( num, pos )
+{
+    var size = Math.pow( 10, pos );
+    return Math.round( num * size ) / size;
 }
 
 function refresh_dashboard( event )

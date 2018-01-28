@@ -360,7 +360,7 @@ large {
 }
 #bar {
     display: none;
-    height: 550px;
+    height: 600px;
     background: linear-gradient( rgba(20, 79, 122, 0.8), rgba(0, 0, 0, 0.8) );
     padding-left: 5%;
     padding-right: 5%;

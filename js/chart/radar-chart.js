@@ -201,11 +201,13 @@ var radar_chart = {
             })
             .on( 'click', function( d )
             {
+                close_detail( "bar-list" );
                 var canvas = document.getElementById( "bar" );
                 canvas.style.display = "block";
                 if( canvas != null )
                     canvas.innerHTML = "";
                 canvas.innerHTML += "<div><i class='fa fa-times close' style='font-size: 2em;' aria-hidden='true' onclick='close_detail(" + "\"bar\"" + " );'></i></div>";
+                canvas.innerHTML += "<div><bold>" + String(d.attribute) + " Comparison</bold></div><hr>";
 
                 var arr = new Array( 25 );
                 for( var i = 0 ; i < arr.length ; i++ )

@@ -3,10 +3,7 @@
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-#Home {
-    margin: 2%;
-}
-
+/* general usage ------------------------------------------ */
 .title {
     color: #3f3e3e;
     border-bottom: #3f3e3e 0.5px solid;
@@ -29,141 +26,71 @@
 .center {
     text-align: center;
 }
+.padding-2p {
+    padding: 2%;
+}
+.padding-5p {
+    padding: 5%;
+}
 .margin-bottom {
     margin-bottom: 10px;
 }
-
 .bgcolor-grass {
     background-color: rgba(0, 152, 57, 0.9);
 }
 .bgcolor-grass-dark {
     background-color: rgba(0, 102, 38, 0.9);
 }
-
-
-.button {
-    background-color: rgb(173, 69, 38);
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-.button:hover {
-    transition: 0.5s;
-    background-color: #111;
-}
-
-.nav {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-
-    z-index: 20;
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #3f3e3e;
-}
-li {
+.float-left {
     float: left;
 }
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-li a:hover:not(.active) {
-    transition: 0.5s;
-    background-color: #111;
-}
-.active {
-    /* background-color: #4CAF50; */
-    background-color: rgb(173, 69, 38);
-}
+/* ------------------------------------------ general usage */
+
+/* self-defined element ----------------------------------- */
 highlight {
     color: rgb(173, 69, 38);
 }
 
-div.tooltip, .tool-tip {
-    color: white;
-    position: absolute;
-    text-align: center;
-    width: 180px;
-    padding: 10px;
-    font-family: "Arial";
-    font: 20px;
-    background: #333;
-    border: 1px solid lightgrey;
-    border-radius: 5px;
-    visibility: hidden;
-    pointer-events: none;
-}
-.tool-tip:after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 12px solid white;
-    position: absolute;
-    bottom: -12px;
-    left: 50%;
-    margin-left: -12px;
-}
-
-#vis1 {
-    background-image: url( "../img/forest.png" );
-    background-size: 100% 650px;
-}
-#list {
-    visibility: hidden;
-    width: 98%;
-    padding: 10px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-wrap: wrap;
-    margin: auto;
-
-    /* border-radius: 10px; */
-
-    background: linear-gradient( rgba(20, 79, 122, 0.8), rgba(0, 0, 0, 0.8) );
-}
-.item {
-    justify-content: center;
-    align-items: center;
-    width: 120px;
-    height: 120px;
-    /* border: #3f3e3e 2px solid; */
-    /* border-radius: 10px; */
-    padding: 10px;
-    /* margin: 1.2em; */
-    /* margin: -2px; */
-    text-align: center;
-    color: white;
-
-    /* margin: auto; */
-}
-.item:hover {
-    transition: 0.5s;
-    background-color: rgba(0, 0, 0, 0.5);
+type {
+    /* color: rgba(0, 152, 57, 0.9); */
+    /* color: rgba(0, 152, 57, 1); */
+    /* color: rgba(0, 0, 0, 1); */
+    /* color: rgba(231, 96, 60, 0.8); */
     color: white;
 }
 
-/* Style the tab */
+h4 {
+    font-size: 1.2em;
+    /* padding: 5px; */
+    color: white;
+}
+bold {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+italic {
+    font-style: italic;
+}
+large {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+red {
+    color: red;
+}
+green {
+    color: green;
+}
+blue {
+    color: blue;
+}
+yellow {
+    color: yellow;
+}
+/* ----------------------------------- self-defined element */
+
+/* tab style ---------------------------------------------- */
 .tab {
     overflow: hidden;
     border: 1px solid #ccc;
@@ -195,18 +122,122 @@ div.tooltip, .tool-tip {
     -webkit-animation: fadeEffect 1s;
     animation: fadeEffect 1s;
 }
-
 /* Fade in tabs */
 @-webkit-keyframes fadeEffect {
     from {opacity: 0;}
     to {opacity: 1;}
 }
-
 @keyframes fadeEffect {
     from {opacity: 0;}
     to {opacity: 1;}
 }
+/* ---------------------------------------------- tab style */
 
+/* navbar style ------------------------------------------- */
+.nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+    z-index: 20;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3f3e3e;
+}
+li {
+    float: left;
+}
+li a, .main-title {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a:hover:not(.active) {
+    transition: 0.5s;
+    background-color: #111;
+}
+.active {
+    /* background-color: #4CAF50; */
+    background-color: rgb(173, 69, 38);
+}
+.button {
+    background-color: rgb(173, 69, 38);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.button:hover {
+    transition: 0.5s;
+    background-color: #111;
+}
+/* ------------------------------------------- navbar style */
+
+/* tooltip style ------------------------------------------ */
+div.tooltip, .tool-tip {
+    color: white;
+    position: absolute;
+    text-align: center;
+    width: 180px;
+    padding: 10px;
+    font-family: "Arial";
+    font: 20px;
+    background: #333;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    visibility: hidden;
+    pointer-events: none;
+}
+.tool-tip:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 12px solid white;
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    margin-left: -12px;
+}
+/* ------------------------------------------ tooltip style */
+
+/* general pokemon item style ----------------------------- */
+.item {
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    /* border: #3f3e3e 2px solid; */
+    /* border-radius: 10px; */
+    padding: 10px;
+    /* margin: 1.2em; */
+    /* margin: -2px; */
+    text-align: center;
+    color: white;
+
+    /* margin: auto; */
+}
+.item:hover {
+    transition: 0.5s;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+/* ----------------------------- general pokemon item style */
+
+/* page 1 style ------------------------------------------- */
 .db-container {
     background-image: url( "../img/forest.png" );
     background-size: 100% 550px;
@@ -216,7 +247,6 @@ div.tooltip, .tool-tip {
 .db-dark {
     background-color: rgba(0, 0, 0, 0.5);
 }
-
 #pokemons {
     width: 100%;
     height: 500px;
@@ -244,11 +274,9 @@ div.tooltip, .tool-tip {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
 }
-
 #detail {
     /* width: 100%; */
     height: 700px;
-    /* background: linear-gradient( rgba(20, 79, 122, 0.8), rgba(0, 0, 0, 0.8) ); */
     background: rgba(20, 79, 122, 0.8);
     padding: 5%;
     /* visibility: hidden; */
@@ -288,14 +316,6 @@ div.tooltip, .tool-tip {
     margin-left: 20px;
     margin-right: 20px;
 }
-type {
-    /* color: rgba(0, 152, 57, 0.9); */
-    /* color: rgba(0, 152, 57, 1); */
-    /* color: rgba(0, 0, 0, 1); */
-    /* color: rgba(231, 96, 60, 0.8); */
-    color: white;
-}
-
 #radar {
     width: 100%;
     /* border: red 2px solid; */
@@ -329,34 +349,13 @@ type {
     /* margin: -2px; */
     text-align: center;
 }
-h4 {
-    font-size: 1.2em;
-    /* padding: 5px; */
-    color: white;
-}
-bold {
-    font-weight: bold;
-    font-size: 1.1em;
-}
-italic {
-    font-style: italic;
-}
-large {
-    font-weight: bold;
-    font-size: 2em;
-}
-
-/* bar chart style ---------------------------------------- */
+/* bar chart style  */
 /* rect */
 .bar {
     fill: rgba(231, 96, 60, 0.8);
-    /* fill: rgba(255, 255, 255, 0.8); */
-    /* fill: linear-gradient( rgba(255, 43, 43, 0.8), rgba(255, 213, 43, 0.8) ); */
 }
 .bar:hover {
     fill: rgba(231, 96, 60, 0.5);
-    /* fill: rgba(255, 255, 255, 0.8); */
-    /* fill: linear-gradient( rgba(255, 43, 43, 0.8), rgba(255, 213, 43, 0.8) ); */
 }
 #bar {
     display: none;
@@ -364,10 +363,8 @@ large {
     background: linear-gradient( rgba(20, 79, 122, 0.8), rgba(0, 0, 0, 0.8) );
     padding-left: 5%;
     padding-right: 5%;
-
-    /* border: red 2px solid; */
 }
-/* axis */
+/* bar chart axis */
 #bar svg g path {
     stroke: white;
 }
@@ -406,7 +403,57 @@ large {
 
     overflow-y: scroll;
 }
-/* ---------------------------------------- bar chart style */
+/* ------------------------------------------- page 1 style */
+
+/* page 2 style ------------------------------------------- */
+#vis1 {
+    background-image: url( "../img/forest.png" );
+    background-size: 100% 650px;
+}
+#list {
+    visibility: hidden;
+    width: 98%;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    margin: auto;
+
+    /* border-radius: 10px; */
+
+    background: linear-gradient( rgba(20, 79, 122, 0.8), rgba(0, 0, 0, 0.8) );
+}
+/* ------------------------------------------- page 2 style */
+
+/* page 3 style ------------------------------------------- */
+#vis2 {
+    height: 700px;
+    background: linear-gradient( rgba(20, 79, 122, 0.8), rgba(0, 0, 0, 0.8) );
+    border-radius: 20px;
+    /* border: red 2px solid; */
+}
+/* scatter chart axis */
+#vis2 svg g g path {
+    stroke: white;
+    font-weight: bold;
+}
+#vis2 svg g g line {
+    stroke: white;
+}
+#vis2 svg g g g {
+    stroke: white;
+}
+/* legend style */
+.legend {
+    padding: 10px;
+}
+.legend td > * {
+    vertical-align : middle;
+}
+/* ------------------------------------------- page 3 style */
 
 /* the pokeball definition -------------------------------- */
 #pokeball-def {
@@ -417,6 +464,7 @@ large {
 }
 /* -------------------------------- the pokeball definition */
 
+/* the close button --------------------------------------- */
 .close {
     float: right;
 }
@@ -424,12 +472,17 @@ large {
     transition: 0.5s;
     transform: scale( 1.5 );
 }
+/* --------------------------------------- the close button */
 
+/* footer style ------------------------------------------- */
 #footer {
     text-align: center;
     /* border: red 2px solid; */
 }
+/* ------------------------------------------- footer style */
 
+
+/* testing */
 td {
     /* border: red 2px solid; */
 }

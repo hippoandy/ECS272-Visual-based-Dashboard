@@ -17,7 +17,7 @@
 
     <ul class="nav">
         <li id="D" class="active" onclick="change_color( '#D' ); open_tab(event, 'dashboard')"><a>Dashboard</a></li>
-        <li id="C1" onclick="change_color( '#C1' ); open_tab(event, 'chart1')"><a>Chart 1</a></li>
+        <li id="C1" onclick="change_color( '#C1' ); open_tab(event, 'chart1')"><a>Pokemon Types</a></li>
     </ul>
     
     <div width="100%" id="dashboard" class="tabcontent">
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div id="detail">
-            <div><i class="fa fa-times close" style="font-size: 2em;" aria-hidden="true" onclick="close_detail();"></i></div>
+            <div><i class="fa fa-times close" style="font-size: 2em;" aria-hidden="true" onclick="close_detail( 'detail' ); close_detail( 'bar' );"></i></div>
             <table id="det-table" width="100%">
                 <tr>
                     <td width="20"><div id="avatar"></div></td>
@@ -68,8 +68,18 @@
                     <td><div id="attr-list"></div></td>
                 </tr>
             </table>
-            <div id="bar"></div>
-            <div id="x-label"></div>
+        </div>
+        <div id="bar"></div>
+        <div id="bar-list">
+            <div style="padding-left: 5%; padding-right: 5%;">
+                <table width="100%">
+                    <tr>
+                        <td align="center"><div id="b-list-g-name"></div></td>
+                        <td align="right"><i class='fa fa-times close text-gray' style='font-size: 2em;' aria-hidden='true' onclick='close_detail( "bar-list" );'></i></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="bar-list-show"></div>
         </div>
     </div>
 
@@ -77,11 +87,7 @@
         <div id="vis1" class="center"></div>
         <div id="list"></div>
     </div>
-    
-    <div id="Tokyo" class="tabcontent">
-        <h3>Tokyo</h3>
-        <p>Tokyo is the capital of Japan.</p>
-    </div>
+
     <br>
     <div id="footer">
         <h2>ECS272 Infomation Visualization Winter 2018</h1>
@@ -95,6 +101,16 @@
         </table>
     </div>
 </div>
+
+<svg id="pokeball-def" width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="poke-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="50%" style="stop-color: rgb( 220, 61, 36 ); stop-opacity: 1;" />
+            <stop offset="50%" style="stop-color: rgb( 255, 255, 255 ); stop-opacity: 1;" />
+        </linearGradient>
+    </defs>
+</svg>
+
 </font>
 </body>
 </html>

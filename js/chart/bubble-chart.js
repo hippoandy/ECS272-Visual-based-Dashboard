@@ -3,13 +3,14 @@
 function bubble_chart( data, type_st )
 {
     // Constants
-    var diameter = 700,
+    var width = 900,
+    height = 600,
     format = d3.format( ",d" );
 
     // Define svg object
     var svg = d3.select( "#vis1" ).append( "svg" )
-    .attr( "width", diameter )
-    .attr( "height", diameter )
+    .attr( "width", width )
+    .attr( "height", height )
     .attr( "class", "bubble" );
 
     // Define 'div' for tooltips
@@ -21,7 +22,7 @@ function bubble_chart( data, type_st )
 
     // Define a bubble object with attributes
     var bubble = d3.pack()
-        .size( [diameter, diameter] )
+        .size( [ width, height ] )
         .padding( 1.5 );
 
     var nodes = d3.hierarchy( {children: type_st} ).sum( function( d ) { return d.Amount; } );
@@ -34,33 +35,52 @@ function bubble_chart( data, type_st )
         .attr( "class", "node" )
         .attr( "transform", function( d ) { return "translate(" + d.x + "," + d.y + ")"; } );
 
+    // node.append( "circle" )
+    //     .attr("r", function( d ) { return d.r; })
+    //     .style( "stroke", "#727272" )
+    //     .style( "stroke-width", "2px" )
+    //     .style( "fill", function( d ) { return d.data.Color; } );
+
     node.append( "circle" )
+        .attr( "class", "pokeball" )
         .attr("r", function( d ) { return d.r; })
-        .style( "stroke", "#727272" )
-        .style( "stroke-width", "2px" )
-        .style( "fill", function( d ) { return d.data.Color; } );
+        .style( "fill", "url(#poke-gradient)" )
+        .style( "stroke", "#232B2B" )
+        .style( "stroke-width", "5px" );
+    
+    node.append( "line" )
+        .attr( "dy", "-15px" )
+        .attr( 'x1', '0' )
+        .attr( 'y1', '0' )
+        .attr( 'x2', function() { return this.previousSibling.getAttribute( "r" ); } )
+        .attr( 'y2', '0' )
+        .style( "stroke", "#232B2B" )
+        .style( "stroke-width", "5px" );
+    node.append( "line" )
+        .attr( "dy", "-15px" )
+        .attr( 'x1', function() { return '-' + this.previousSibling.previousSibling.getAttribute( "r" ); } )
+        .attr( 'y1', '0' )
+        .attr( 'x2', '0' )
+        .attr( 'y2', '0' )
+        .style( "stroke", "#232B2B" )
+        .style( "stroke-width", "5px" );
+    node.append( "circle" )
+        .attr( "r", function( d ) { return d.r / 3; })
+        .style( "fill", "white" )
+        .style( "stroke", "#232B2B" )
+        .style( "stroke-width", "5px" );
+    node.append( "circle" )
+        .attr( "r", function( d ) { return d.r / 5; })
+        .style( "fill", "white" )
+        .style( "stroke", "#232B2B" )
+        .style( "stroke-width", "2px" );
     
     node.append( "text" )
-        .attr("dy", ".3em")
-        .text(function(d) {
-            return d.data.Type;
-        })
+        .attr( "dy", "-25px" )
+        .text( function(d) { return d.data.Type; })
         .style( "text-anchor", "middle" )
         .style( "font-weight", "bold" )
-        .style( 'fill', function ( d ) {
-            switch( d.data.Type )
-            {
-                case 'Dragon':
-                case 'Electric':
-                case 'Ghost':
-                case 'Normal':
-                    return "#282424"
-                default:
-                    return "#fff";
-            }
-            // if( this.previousSibling.style.fill == "rgb(255, 255, 255)" )
-            //     return "#282424";
-        });
+        .style( 'fill', "white" );
     
     // Tooltip for bubble
     node.on( "mouseover", function( d ) {
@@ -84,22 +104,9 @@ function bubble_chart( data, type_st )
         list.style.visibility = "visible";
         list.innerHTML = "";
         for( var i = 0 ; i < data.length ; i++ )
-        {
             if( data[ i ].Type_1 == d.data.Type )
-            {
-                var ndiv = document.createElement( "div" );
-                ndiv.className = "item";
-                ndiv.innerHTML = data[ i ].Name;
-                var img = document.createElement( "img" );
-                img.setAttribute( "src", ("./img/pokemon/" + String(data[ i ].Number) + ".png") );
-                img.setAttribute( "style", "padding: 2px;" );
-                img.setAttribute( "width", "80px" );
-                img.setAttribute( "height", "80px" );
-                img.setAttribute( "alt", String(data[ i ].Name) );
-                ndiv.appendChild( img );
-                list.appendChild( ndiv );
-            }
-        }
+                list.appendChild( create_pokeitem( data[ i ], "", null ) );
+        auto_scroll( "#list" );
     });
-    d3.select( self.frameElement ).style( "height", diameter + "px" );
+    d3.select( self.frameElement ).style( "height", height + "px" );
 };

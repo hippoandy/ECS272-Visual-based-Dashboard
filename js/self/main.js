@@ -99,6 +99,10 @@ $( document ).ready(function()
     function( error, header )
     {
         if( error ) throw error;
+        scatter_chart( "Total", "Catch_Rate" );
+        scatter_chart( "Weight_kg", "Height_m" );
+        scatter_chart( "Weight_kg", "Catch_Rate" );
+        scatter_chart( "Sp_Atk", "HP" );
 
         $('.page1').show();
         numpage.innerHTML = "1 / " + numofpage;
@@ -296,20 +300,30 @@ function close_detail( id )
             auto_scroll( "#dashboard" );
             break;
         case "bar":
-            document.getElementById( "show-hint" ).style.display = "none";
-            document.getElementById( "show-hint" ).style.top = 0;
+            if( document.getElementById( "show-hint" ) != null )
+            {
+                document.getElementById( "show-hint" ).style.display = "none";
+                document.getElementById( "show-hint" ).style.top = 0;
+            }
+            if( document.getElementById( "bar-list" ) != null )
+            {
+                document.getElementById( "bar-list" ).style.display = "none";
+                document.getElementById( "bar-list" ).style.top = 0;
+            }
 
-            document.getElementById( "bar-list" ).style.display = "none";
-            document.getElementById( "bar-list" ).style.top = 0;
-
-            document.getElementById( "bar-list-show" ).style.display = "none";
-            document.getElementById( "bar-list-show" ).style.top = 0;
+            if( document.getElementById( "bar-list-show" ) != null )
+            {
+                document.getElementById( "bar-list-show" ).style.display = "none";
+                document.getElementById( "bar-list-show" ).style.top = 0;
+            }
 
             auto_scroll( "#detail" );
             break;
         case "bar-list":
-            document.getElementById( "bar-list" ).style.top = 0;
-            document.getElementById( "bar-list-show" ).style.top = 0;
+            if( document.getElementById( "bar-list" ) != null )
+                document.getElementById( "bar-list" ).style.top = 0;
+            if( document.getElementById( "bar-list-show" ) != null )
+                document.getElementById( "bar-list-show" ).style.top = 0;
             break;
     }
 }

@@ -1,4 +1,5 @@
 // Bubble Chart
+// https://bl.ocks.org/john-guerra/0d81ccfd24578d5d563c55e785b3b40a
 
 function bubble_chart( data, type_st )
 {
@@ -81,15 +82,16 @@ function bubble_chart( data, type_st )
         .style( "text-anchor", "middle" )
         .style( "font-weight", "bold" )
         .style( 'fill', "white" );
+        // .style( 'fill', "#3f3e3e" );
     
     // Tooltip for bubble
     node.on( "mouseover", function( d ) {
-        div .transition()
+        div.transition()
             .duration( 100 )
             .style( "visibility", "visible" )
             .style( "opacity", 0.9 )
             .style( "transition", "0.5s" );
-        div .html(
+        div.html(
                 "<div class=\"text-bold center\">" + d.data.Type + "</div><br>" +
                 "Amount: " + d.data.Amount
             )

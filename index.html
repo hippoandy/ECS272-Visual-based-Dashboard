@@ -10,14 +10,17 @@
 <script src="./js/chart/bubble-chart.js"></script>
 <script src="./js/chart/radar-chart.js"></script>
 <script src="./js/chart/bar-chart.js"></script>
+<script src="./js/chart/scatter-chart.js"></script>
 </head>
 <body class="body">
 <font face="Arial">
 <div class="text-white">
 
     <ul class="nav">
+        <li class="main-title"><bold>Pokemon Index</bold></li>
         <li id="D" class="active" onclick="change_color( '#D' ); open_tab(event, 'dashboard')"><a>Dashboard</a></li>
         <li id="C1" onclick="change_color( '#C1' ); open_tab(event, 'chart1')"><a>Pokemon Types</a></li>
+        <li id="C2" onclick="change_color( '#C2' ); open_tab(event, 'chart2')"><a>Statistics</a></li>
     </ul>
     
     <div width="100%" id="dashboard" class="tabcontent">
@@ -86,6 +89,61 @@
     <div id="chart1" class="tabcontent">
         <div id="vis1" class="center"></div>
         <div id="list"></div>
+    </div>
+
+    <div id="chart2" class="tabcontent">
+        <div class="padding-2p">
+            <bold><large>Three Pokemon Clusters Plotted depend on Pairs of Variables.</large></bold>
+            <br><br>
+            <div>
+                The Combat Power (CP) is the total of a Pokemon's value of 
+                <italic><highlight><bold>Attack</bold></highlight></italic>, 
+                <italic><highlight><bold>Defense</bold></highlight></italic>, 
+                <italic><highlight><bold>Speed</bold></highlight></italic>, 
+                <italic><highlight><bold>Speical Attack</bold></highlight></italic>, and 
+                <italic><highlight><bold>Special Defense</bold></highlight></italic>.<br>
+                This value is available as "<italic><highlight><bold>Total</bold></highlight></italic>" in the dataset.
+                After preprocessed the data, the min. and max. value of "Total" are <bold>180</bold> and <bold>720</bold>, respectively.
+                CP coule be and indicator of a Pokemon's strength.
+                CP defined three groups, which is called "cluster" in the title.
+                <br><br>
+                These three groups (clusters) are:
+                <bold>
+                    <br>
+                    <table class="text-white">
+                        <tr><td><bold>* CP between 180 - 360: <red>Weaker</red></bold></td></tr>
+                        <tr><td><bold>* CP between 361 - 540: <yellow>Medium</yellow></bold></td></tr>
+                        <tr><td><bold>* CP between 541 - 720: <green>Strong</green></bold></td></tr>
+                    </table>
+                </bold>
+                <br><br>
+                We could now use the following charts to observe the relationship among the pair of variable and the Pokemon's CP.
+            </div>
+        </div>
+        <div id="vis2" class="center">
+            <table width="100%" class="legend">
+                <tr>
+                    <td align="center">
+                        <svg height="30px" width="30px" style="margin-right: 40px;">
+                            <circle id="det-cir" cx="12" cy="15" r="10" stroke="white" stroke-width="3" fill="red"></circle>
+                        </svg>
+                        <bold class="text-white">Weaker</bold>
+                    </td>
+                    <td align="center">
+                        <svg height="30px" width="30px" style="margin-right: 40px;">
+                            <circle id="det-cir" cx="12" cy="15" r="10" stroke="white" stroke-width="3" fill="yellow"></circle>
+                        </svg>
+                        <bold class="text-white">Medium</bold>
+                    </td>
+                    <td align="center">
+                        <svg height="30px" width="30px" style="margin-right: 40px;">
+                            <circle id="det-cir" cx="12" cy="15" r="10" stroke="white" stroke-width="3" fill="blue"></circle>
+                        </svg>
+                        <bold class="text-white">Strong</bold>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
     <br>

@@ -188,17 +188,55 @@ var radar_chart = {
             .style( "fill-opacity", 0.9 )
             .on( 'mouseover', function( d )
             {
-                tooltip.style( "left", d3.event.pageX - 70 + "px" )
-                    .style( "top", d3.event.pageY - 75 + "px" )
+                tooltip.style( "left", d3.event.pageX - 90 + "px" )
+                    .style( "top", d3.event.pageY - 90 + "px" )
                     .style( "opacity", 0.9 )
                     .style( "transition", "0.5s" )
-                    .html( (d.attribute) + "<br><span>" + (d.value) + "</span>" );
-                tooltip.style( "visibility", "visible" )
+                    .html( (d.attribute) + "<br><span>" + (d.value) + "</span><br><italic>(Click to see detail)</italic>" );
+                tooltip.style( "visibility", "visible" );
             })
-            .on("mouseout", function( d ) { tooltip.style( "visibility", "hidden" ); })
-            .on( 'click', function()
+            .on("mouseout", function( d ) {
+                tooltip.style( "visibility", "hidden" );
+                tooltip.style( "top" , 0 );
+            })
+            .on( 'click', function( d )
             {
-                console.log( "hi!!" );
+                var canvas = document.getElementById( "bar" );
+                canvas.style.display = "block";
+                if( canvas != null )
+                    canvas.innerHTML = "";
+                canvas.innerHTML += "<div><i class='fa fa-times close' style='font-size: 2em;' aria-hidden='true' onclick='close_detail(" + "\"bar\"" + " );'></i></div>";
+
+                var arr = new Array( 25 );
+                for( var i = 0 ; i < arr.length ; i++ )
+                    arr[ i ] = { "group": (i + 1) * 10, "count": 0 };
+
+                var map;
+                switch( d.attribute )
+                {
+                    case "Attack":
+                        map = attack;
+                        break;
+                    case "Defense":
+                        map = defense;
+                        break;
+                    case "Speed":
+                        map = speed;
+                        break;
+                    case "Speical Attack":
+                        map = sp_atk;
+                        break;
+                    case "Speical Defense":
+                        map = sp_def;
+                        break;
+                }
+                map.forEach( function( value, key ) {
+                    arr[ parseInt(parseInt(key) / 10 - 1) ].count = value.get( "count" );
+                })
+                bar_chart.draw( arr, String(d.attribute), d.value, map );
+
+                // auto-scroll
+                auto_scroll( "#bar" );
             });
 
             series++;

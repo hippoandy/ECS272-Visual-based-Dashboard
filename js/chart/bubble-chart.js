@@ -3,7 +3,7 @@
 function bubble_chart( data, type_st )
 {
     // Constants
-    var width = 900,
+    var width = 600,
     height = 600,
     format = d3.format( ",d" );
 
@@ -105,8 +105,17 @@ function bubble_chart( data, type_st )
         list.innerHTML = "";
         for( var i = 0 ; i < data.length ; i++ )
             if( data[ i ].Type_1 == d.data.Type )
-                list.appendChild( create_pokeitem( data[ i ], "", null ) );
+                list.appendChild( create_pokeitem( data[ i ], "", link_dashboard ) );
         auto_scroll( "#list" );
     });
     d3.select( self.frameElement ).style( "height", height + "px" );
 };
+
+function link_dashboard( event )
+{
+    var el = event.target;
+    find_pokemon( event );
+    change_color( '#D' );
+    open_tab( event, 'dashboard' );
+    auto_scroll( "#detail" );
+}

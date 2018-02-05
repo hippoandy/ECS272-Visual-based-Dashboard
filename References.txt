@@ -1,0 +1,23 @@
+References:
+1. How to make a div float to a center of a container, along dynamic elements that will be added according to user's input
+    https://stackoverflow.com/questions/34191945/how-to-make-a-div-float-to-a-center-of-a-container-along-dynamic-elements-that
+2. Aligning a DIV within a table cell
+    https://stackoverflow.com/questions/3336354/aligning-a-div-within-a-table-cell
+3. How to sort an array of integers correctly
+    https://stackoverflow.com/questions/1063007/how-to-sort-an-array-of-integers-correctly
+4. Can't scroll to top of flex item that is overflowing container
+    https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container
+5. Making a div vertically scrollable using CSS
+    https://stackoverflow.com/questions/9707397/making-a-div-vertically-scrollable-using-css
+6. How do I create objects dynamically with Onclick property in javascript
+    https://stackoverflow.com/questions/35113582/how-do-i-create-objects-dynamically-with-onclick-property-in-javascript
+7. jQuery scroll to element
+    https://stackoverflow.com/questions/6677035/jquery-scroll-to-element
+8. Getting attribute of a parent node
+    https://stackoverflow.com/questions/9126264/getting-attribute-of-a-parent-node
+9. Float a DIV on top of another DIV
+    https://stackoverflow.com/questions/17652718/float-a-div-on-top-of-another-div
+10. How to break/exit from a each() function in JQuery? [duplicate]
+    https://stackoverflow.com/questions/1799284/how-to-break-exit-from-a-each-function-in-jquery
+11. Vertical align all(!) elements in TD?
+    https://stackoverflow.com/questions/18941108/vertical-align-all-elements-in-td

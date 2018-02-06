@@ -32,7 +32,8 @@ This page shows the basic statistics result suggested by the Pokemon dataset. Us
 
 ## Screenshots
 ### The First Page
-
+![Page 1](https://github.com/hippoandy/ECS272-Visual-based-Dashboard/blob/master/screenshots/cover1.png?raw=true)
 ### The Second Page
-
+![Page 2](https://github.com/hippoandy/ECS272-Visual-based-Dashboard/blob/master/screenshots/cover2.png?raw=true)
 ### The Third Page
+![Page 3](https://github.com/hippoandy/ECS272-Visual-based-Dashboard/blob/master/screenshots/cover3.png?raw=true)

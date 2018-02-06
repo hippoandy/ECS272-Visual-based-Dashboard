@@ -1,5 +1,6 @@
 # ECS272-Visual-based-Dashboard
-This is the course project for the course ECS272 Information Visualization at UC Davis.
+This is the first course project for the course Winter 2018 ECS272 Information Visualization at UC Davis.
+* Winter 2018
 
 ## Introduction
 

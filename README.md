@@ -2,6 +2,8 @@
 This is the first course project for the course Winter 2018 ECS272 Information Visualization at UC Davis.
 * Winter 2018
 
+### DEMO Site: [hipposerver.ddns.net/~hippo/ecs272vbd](hipposerver.ddns.net/~hippo/ecs272vbd)
+
 ## Introduction
 
 The objective of this project is for the student to have hand-on experiences with D3.js library and basic skills for data visualization.

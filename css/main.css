@@ -389,19 +389,23 @@ div.tooltip, .tool-tip {
     border: #3f3e3e 2px solid;
     background-color: rgba( 0, 155, 68, 0.8);
     border-radius: 10px;
-
-    padding: 10px;
+	overflow: hidden;
+    overflow-y: scroll;
+	padding: 10px;
 }
 #bar-list-show {
     min-height: min-content;
     display: none;
-    justify-content: center;
+	justify-content: center;
     align-items: center;
     /* align-content: center; */
     flex-wrap: wrap;
     margin: auto;
 
-    overflow-y: scroll;
+	height: 500;
+
+    /*overflow-y: scroll;*/
+	/*overflow: hidden;*/
 }
 /* ------------------------------------------- page 1 style */
 

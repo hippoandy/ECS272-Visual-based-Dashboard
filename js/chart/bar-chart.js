@@ -89,7 +89,8 @@ var bar_chart = {
                 list.style.left = pos.left + 595;
                 list.style.width = 500;
                 list.style.height = 500;
-                list.style.display = "block";
+                //list.style.display = "block";
+				list.style.display = "block";
 
                 list = document.getElementById( "bar-list-show" );
                 list.style.width = 500;
